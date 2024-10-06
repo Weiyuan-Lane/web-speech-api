@@ -19,9 +19,12 @@ if (typeof window !== 'undefined') {
   SpeechRecognitionEventApi = (window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent);
 }
 
-export type engageSpeechRecognitionCallback = (result: string, confidence: number) => void;
+export type engageSpeechRecognitionCallbackType = (result: string, confidence: number) => void;
 
-function engageSpeechRecognition(callback: engageSpeechRecognitionCallback) {
+function engageSpeechRecognition(
+  callback: engageSpeechRecognitionCallbackType,
+  endCallback: () => void
+): SpeechRecognition {
   const recognition = new SpeechRecognitionApi();
   recognition.continuous = false;
   recognition.interimResults = false;
@@ -33,10 +36,11 @@ function engageSpeechRecognition(callback: engageSpeechRecognitionCallback) {
   };
 
   recognition.onspeechend = () => {
-    recognition.stop();
+    endCallback();
   };
 
   recognition.start();
+  return recognition;
 }
 
 export {

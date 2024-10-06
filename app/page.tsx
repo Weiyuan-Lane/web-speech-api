@@ -51,7 +51,7 @@ export default function Home() {
             <Grid size={12}>
               <Divider
                 style={{ paddingTop: '30px', paddingBottom: '30px' }}>
-                <Chip label="Voice Recognition" />
+                <Chip label="Voice Recognition - Detect spoken word" />
               </Divider>
             </Grid>
 
@@ -64,6 +64,25 @@ export default function Home() {
             >
               <Button variant="outlined">
                 <Link href="/detect-sound">Say a word, and see the API detect it!</Link>
+              </Button>
+            </Grid>
+
+            <Grid size={12}>
+              <Divider
+                style={{ paddingTop: '30px', paddingBottom: '30px' }}>
+                <Chip label="Voice Recognition - Count spoken word" />
+              </Divider>
+            </Grid>
+
+            <Grid
+              size={12}
+              container
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Button variant="outlined">
+                <Link href="/detect-sound/count">Count words mentioned from your mic!</Link>
               </Button>
             </Grid>
           </Grid>

@@ -1,7 +1,7 @@
 "use client";
 
 import { engageSpeechRecognition } from '../../components/dom-web-speech';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardActionArea,
@@ -16,25 +16,57 @@ import {
   Chip,
   Tooltip,
   CircularProgress,
-  TextField
+  TextField,
+  Snackbar
 } from '@mui/material';
+import Grow, { GrowProps } from '@mui/material/Grow';
 import MicIcon from '@mui/icons-material/Mic';
 import NorthWestIcon from '@mui/icons-material/NorthWest';
 import Link from 'next/link';
 import supportedBrowserImage from './supported-browsers-06-10-2024.png';
 
+function GrowTransition(props: GrowProps) {
+  return <Grow {...props} />;
+}
+
 export default function DetectSound() {
   const [ongoingSpeechRecognition, setOngoingSpeechRecognition] = useState(false);
   const [detectedText, setDetectedText] = useState('');
   const [confidence, setConfidence] = useState(0);
+  const [snackBarOpen, setSnackbarOpen] = useState(false);
+  const [speechRecognitionEntity, setSpeechRecognitionEntity] = useState<SpeechRecognition>();
+
+  useEffect(() => {
+    return () => {
+      if (speechRecognitionEntity){
+        speechRecognitionEntity.stop();
+      }
+    };
+  }, []);
 
   const startSpeechRecognition = () => {
+    let loaded = false;
     setOngoingSpeechRecognition(true);
-    engageSpeechRecognition((result: string, confidence: number) => {
+    const setValueCallback = (result: string, confidence: number) => {
+      loaded = true;
       setDetectedText(result);
       setConfidence(confidence);
       setOngoingSpeechRecognition(false);
-    });
+    };
+    const endCallback = () => {
+      if (!loaded) {
+        setSpeechRecognitionEntity(engageSpeechRecognition(setValueCallback, endCallback));
+        setSnackbarOpen(true);
+      } else {
+        setSpeechRecognitionEntity(undefined);
+      }
+    };
+
+    setSpeechRecognitionEntity(engageSpeechRecognition(setValueCallback, endCallback));
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -135,6 +167,22 @@ export default function DetectSound() {
                 </Grid>
               </Grid>
             }
+            { !ongoingSpeechRecognition && detectedText &&
+              <Grid container size={12}>
+                <Button fullWidth variant="outlined">
+                  <Link
+                    href={{
+                      pathname: '/detect-sound/count',
+                      query: {
+                        q: detectedText
+                      }
+                    }}
+                  >
+                    Try our counting function
+                  </Link>
+                </Button>
+              </Grid>
+            }
 
             <Grid size={12}>
               <Divider
@@ -167,6 +215,15 @@ export default function DetectSound() {
             </Grid>
           </Grid>
         </Box>
+
+        <Snackbar
+          open={snackBarOpen}
+          onClose={handleSnackbarClose}
+          TransitionComponent={GrowTransition}
+          message='Speech not recognised. Try again!'
+          key={GrowTransition.name}
+          autoHideDuration={1200}
+        />
       </main>
     </div>
   )
