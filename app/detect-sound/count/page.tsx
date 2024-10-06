@@ -8,11 +8,6 @@ import {
   useEffect,
 } from 'react';
 import {
-  // Card,
-  // CardActionArea,
-  // CardContent,
-  // CardMedia,
-  // CardActions,
   Typography,
   Button,
   Grid2 as Grid,
@@ -34,8 +29,6 @@ function GrowTransition(props: GrowProps) {
   return <Grow {...props} />;
 }
 
-let globalCountingState = false;
-
 export default function Count() {
   const searchParams = useSearchParams();
   const query = searchParams.get('q');
@@ -46,11 +39,6 @@ export default function Count() {
   const [speechRecognitionEntity, setSpeechRecognitionEntity] = useState<SpeechRecognition>();
   const [snackBarOpen, setSnackbarOpen] = useState(false);
   const [snackBarText, setSnackbarText] = useState('');
-
-  useEffect(() => {
-    globalCountingState = countOngoing;
-    return () => {};
-  }, [countOngoing]);
 
   useEffect(() => {
     return () => {
@@ -104,16 +92,13 @@ export default function Count() {
       const matches = result.match(regex);
       currentCount += matches ? matches.length : 0;
       setCount(currentCount);
-      setSnackbarText(`You said: "${result}"`);
+      setSnackbarText(`You said: "${result.replace(/^\s+|\s+$/g, '')}"`);
       setSnackbarOpen(true);
     };
     const endCallback = () => {
-      if (globalCountingState) {
-        setSpeechRecognitionEntity(engageSpeechRecognition(setValueCallback, endCallback));
-      }
     };
 
-    setSpeechRecognitionEntity(engageSpeechRecognition(setValueCallback, endCallback));
+    setSpeechRecognitionEntity(engageSpeechRecognition(setValueCallback, endCallback, true));
   };
 
   return (

@@ -23,15 +23,18 @@ export type engageSpeechRecognitionCallbackType = (result: string, confidence: n
 
 function engageSpeechRecognition(
   callback: engageSpeechRecognitionCallbackType,
-  endCallback: () => void
+  endCallback: () => void,
+  continuous: boolean = false,
 ): SpeechRecognition {
   const recognition = new SpeechRecognitionApi();
-  recognition.continuous = false;
+  recognition.continuous = continuous;
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
 
   recognition.onresult = (event) => {
-    const { transcript: result, confidence } = event.results[0][0];
+    const lastIndex = event.results.length - 1;
+    const { transcript: result, confidence } = event.results[lastIndex][0];
+
     callback(result, confidence);
   };
 
