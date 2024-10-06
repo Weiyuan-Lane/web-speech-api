@@ -3,6 +3,10 @@
 // // const __filename = fileURLToPath(import.meta.url);
 // // const __dirname = path.dirname(__filename);
 
+/**
+ * @type {import('next').NextConfig}
+ */
+
 /*****************************************************************************
  * SET YOUR CONFIGURATION HERE
  *****************************************************************************/
@@ -18,6 +22,8 @@ const webpackBasePath = process.env.SPA_EXP_BUILD === 'true' ? basePath : ''
 const nextConfig = {
   basePath: webpackBasePath,
   assetPrefix: webpackBasePath,
+  output: 'export',
+  distDir: 'dist',
 
   // webpack: function(config) {
   //   config.module.rules.push(
