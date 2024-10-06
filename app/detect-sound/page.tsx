@@ -2,8 +2,13 @@
 
 import { engageSpeechRecognition } from '../../components/dom-web-speech';
 import { useState } from 'react';
-import Image from 'next/image';
 import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  CardActions,
+  Typography,
   Button,
   Grid2 as Grid,
   Box,
@@ -15,6 +20,7 @@ import {
 } from '@mui/material';
 import MicIcon from '@mui/icons-material/Mic';
 import NorthWestIcon from '@mui/icons-material/NorthWest';
+import Link from 'next/link';
 import supportedBrowserImage from './supported-browsers-06-10-2024.png';
 
 export default function DetectSound() {
@@ -52,7 +58,9 @@ export default function DetectSound() {
         }}>
           <Grid container rowSpacing={1}>
             <Grid size={12}>
-              <Button startIcon={<NorthWestIcon/>} href="/">Home</Button>
+              <Button startIcon={<NorthWestIcon/>}>
+                <Link href="/">Home</Link>
+              </Button>
             </Grid>
 
             <Grid size={12}>
@@ -135,19 +143,27 @@ export default function DetectSound() {
               </Divider>
             </Grid>
 
-            <Grid size={12} style={{ fontFamily: "'Roboto'", textAlign: 'justify', lineHeight: '25px' }}>
-              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.08)', padding: '15px 25px', borderRadius: '10px' }}>
-                <p>Not all browsers might be supported. See the following image taken on 6th Oct 2024, where some browsers are not supported. See <a href="https://caniuse.com/mdn-api_speechrecognitionevent" target="_blank">here</a> for more details.</p>
-                <br/>
-                <Image
+            <Grid size={12}>
+              <Card>
+                <CardActionArea>
+                  <CardContent>
+                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                      Not all browsers might be supported. See the following image taken on 6th Oct 2024, where some browsers are not supported.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button>
+                    <Link href="https://caniuse.com/mdn-api_speechrecognitionevent" target="_blank">Supported browsers</Link>
+                  </Button>
+                </CardActions>
+                <CardMedia
                   src={supportedBrowserImage.src}
-                  alt="Supported Browsers"
-                  width={0}
-                  height={0}
-                  sizes="100vw"
-                  style={{ width: '100%', height: 'auto' }}
+                  component="img"
+                  height="50"
                 />
-              </div>
+              </Card>
+
             </Grid>
           </Grid>
         </Box>
