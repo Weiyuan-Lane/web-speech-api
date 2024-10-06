@@ -42,7 +42,7 @@ export default function DetectSound() {
         speechRecognitionEntity.stop();
       }
     };
-  }, []);
+  }, [speechRecognitionEntity]);
 
   const startSpeechRecognition = () => {
     let loaded = false;

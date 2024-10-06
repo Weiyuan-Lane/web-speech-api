@@ -58,7 +58,7 @@ export default function Count() {
         speechRecognitionEntity.stop();
       }
     };
-  }, []);
+  }, [speechRecognitionEntity]);
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -94,7 +94,7 @@ export default function Count() {
 
   const startSpeechRecognition = () => {
     let currentCount = 0;
-    const setValueCallback = (result: string, _: number) => {
+    const setValueCallback = (result: string) => {
       if (result === 'stop') {
         setCountOngoing(false);
         return;
