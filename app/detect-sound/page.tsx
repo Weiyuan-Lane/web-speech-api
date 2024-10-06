@@ -2,6 +2,7 @@
 
 import { engageSpeechRecognition } from '../../components/dom-web-speech';
 import { useState } from 'react';
+import Image from 'next/image';
 import {
   Button,
   Grid2 as Grid,
@@ -13,6 +14,7 @@ import {
   TextField
 } from '@mui/material';
 import MicIcon from '@mui/icons-material/Mic';
+import supportedBrowserImage from './supported-browsers-06-10-2024.png';
 
 export default function DetectSound() {
   const [ongoingSpeechRecognition, setOngoingSpeechRecognition] = useState(false);
@@ -119,6 +121,28 @@ export default function DetectSound() {
                 </Grid>
               </Grid>
             }
+
+            <Grid size={12}>
+              <Divider
+                style={{ paddingTop: '30px', paddingBottom: '30px' }}>
+                <Chip label="Disclaimer" />
+              </Divider>
+            </Grid>
+
+            <Grid size={12} style={{ fontFamily: "'Roboto'", textAlign: 'justify', lineHeight: '25px' }}>
+              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.08)', padding: '15px 25px', borderRadius: '10px' }}>
+                <p>Not all browsers might be supported. See the following image taken on 6th Oct 2024, where some browsers are not supported. See <a href="https://caniuse.com/mdn-api_speechrecognitionevent" target="_blank">here</a> for more details.</p>
+                <br/>
+                <Image
+                  src={supportedBrowserImage.src}
+                  alt="Supported Browsers"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{ width: '100%', height: 'auto' }}
+                />
+              </div>
+            </Grid>
           </Grid>
         </Box>
       </main>
