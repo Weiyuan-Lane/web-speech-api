@@ -14,6 +14,7 @@ import {
   TextField
 } from '@mui/material';
 import MicIcon from '@mui/icons-material/Mic';
+import NorthWestIcon from '@mui/icons-material/NorthWest';
 import supportedBrowserImage from './supported-browsers-06-10-2024.png';
 
 export default function DetectSound() {
@@ -35,6 +36,7 @@ export default function DetectSound() {
       <main>
         <Box sx={{
           mx: 'auto',
+          paddingTop: '25px',
           paddingLeft: '10px',
           paddingRight: '10px',
           width: '100%',
@@ -49,6 +51,10 @@ export default function DetectSound() {
           }
         }}>
           <Grid container rowSpacing={1}>
+            <Grid size={12}>
+              <Button startIcon={<NorthWestIcon/>} href="/">Home</Button>
+            </Grid>
+
             <Grid size={12}>
               <Divider
                 style={{ paddingTop: '30px', paddingBottom: '30px' }}>

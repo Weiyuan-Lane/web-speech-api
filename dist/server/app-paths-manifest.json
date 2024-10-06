@@ -1,3 +1,4 @@
 {
-  "/detect-sound/page": "app/detect-sound/page.js"
+  "/detect-sound/page": "app/detect-sound/page.js",
+  "/page": "app/page.js"
 }

@@ -554,6 +554,9 @@ video {
     max-width: 1536px;
   }
 }
+.flex {
+  display: flex;
+}
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
