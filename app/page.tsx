@@ -51,7 +51,7 @@ export default function Home() {
             <Grid size={12}>
               <Divider
                 style={{ paddingTop: '30px', paddingBottom: '30px' }}>
-                <Chip label="Voice Recognition - Detect spoken word" />
+                <Chip label="Speech Recognition - Detect spoken word" />
               </Divider>
             </Grid>
 
@@ -70,7 +70,7 @@ export default function Home() {
             <Grid size={12}>
               <Divider
                 style={{ paddingTop: '30px', paddingBottom: '30px' }}>
-                <Chip label="Voice Recognition - Count spoken word" />
+                <Chip label="Speech Recognition - Count spoken word" />
               </Divider>
             </Grid>
 

@@ -98,7 +98,7 @@ export default function DetectSound() {
             <Grid size={12}>
               <Divider
                 style={{ paddingTop: '30px', paddingBottom: '30px' }}>
-                <Chip label="Voice Recognition" />
+                <Chip label="Speech Recognition" />
               </Divider>
             </Grid>
 
