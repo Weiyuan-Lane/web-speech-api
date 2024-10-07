@@ -83,7 +83,8 @@ export default function Count() {
   const startSpeechRecognition = () => {
     let currentCount = 0;
     const setValueCallback = (result: string) => {
-      if (result === 'stop') {
+      const strippedResult = result.replace(/^\s+|\s+$/g, '')
+      if (strippedResult === 'stop') {
         setCountOngoing(false);
         return;
       }
@@ -92,7 +93,7 @@ export default function Count() {
       const matches = result.match(regex);
       currentCount += matches ? matches.length : 0;
       setCount(currentCount);
-      setSnackbarText(`You said: "${result.replace(/^\s+|\s+$/g, '')}"`);
+      setSnackbarText(`You said: "${strippedResult.replace(/^\s+|\s+$/g, '')}"`);
       setSnackbarOpen(true);
     };
     const endCallback = () => {
