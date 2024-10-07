@@ -85,6 +85,25 @@ export default function Home() {
                 <Link href="/detect-sound/count">Count words mentioned from your mic!</Link>
               </Button>
             </Grid>
+
+            <Grid size={12}>
+              <Divider
+                style={{ paddingTop: '30px', paddingBottom: '30px' }}>
+                <Chip label="Text to Speech" />
+              </Divider>
+            </Grid>
+
+            <Grid
+              size={12}
+              container
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Button variant="outlined">
+                <Link href="/speech">Text to speech using your browser!</Link>
+              </Button>
+            </Grid>
           </Grid>
         </Box>
       </main>
