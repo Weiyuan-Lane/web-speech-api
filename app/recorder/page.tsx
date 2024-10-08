@@ -5,7 +5,6 @@ import {
   WeiyuanMediaRecorder,
 } from '../../components/dom-web-speech';
 import {
-  useEffect,
   useState,
 } from 'react';
 import {
@@ -23,12 +22,6 @@ import MusicVideoIcon from '@mui/icons-material/MusicVideo';
 import SmartDisplayIcon from '@mui/icons-material/SmartDisplay';
 
 export default function Speech() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   const [recorder, setRecorder] = useState<WeiyuanMediaRecorder|null>(null);
   const [isRecordingScreenAudio, setIsRecordingScreenAudio] = useState(false);
   const [isRecordingScreenVideo, setIsRecordingScreenVideo] = useState(false);
@@ -100,10 +93,6 @@ export default function Speech() {
     setIsRecordingScreenVideo(false);
     setIsRecordingUserAudio(false);
     setIsRecordingUserVideo(false);
-  }
-
-  if (!isClient) {
-    return null;
   }
 
   return (

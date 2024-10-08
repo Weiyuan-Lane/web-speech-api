@@ -6,7 +6,6 @@ import {
   speechSynthesis,
 } from '../../components/dom-web-speech';
 import {
-  useEffect,
   useState,
 } from 'react';
 import {
@@ -31,12 +30,6 @@ import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 
 export default function Speech() {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   const voiceLanguages = getVoiceLanguages();
   const [voiceLanguage, setVoiceLanguage] = useState(voiceLanguages[0] || '');
   const [voices, setVoices] = useState(getVoicesForLang(voiceLanguage) || '');
@@ -69,10 +62,6 @@ export default function Speech() {
       rate,
       volume,
     });
-  }
-
-  if (!isClient) {
-    return null;
   }
 
   return (
