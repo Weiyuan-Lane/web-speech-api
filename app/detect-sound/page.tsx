@@ -24,6 +24,7 @@ import MicIcon from '@mui/icons-material/Mic';
 import NorthWestIcon from '@mui/icons-material/NorthWest';
 import Link from 'next/link';
 import supportedBrowserImage from './supported-browsers-06-10-2024.png';
+import GetUrl from '@/helpers/GetUrl';
 
 function GrowTransition(props: GrowProps) {
   return <Grow {...props} />;
@@ -91,7 +92,7 @@ export default function DetectSound() {
           <Grid container rowSpacing={1}>
             <Grid size={12}>
               <Button startIcon={<NorthWestIcon/>}>
-                <Link href="/">Home</Link>
+                <Link href={GetUrl("/")}>Home</Link>
               </Button>
             </Grid>
 
@@ -172,7 +173,7 @@ export default function DetectSound() {
                 <Button fullWidth variant="outlined">
                   <Link
                     href={{
-                      pathname: '/detect-sound/count',
+                      pathname: GetUrl('/detect-sound/count'),
                       query: {
                         q: detectedText
                       }

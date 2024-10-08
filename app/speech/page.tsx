@@ -29,6 +29,7 @@ import {
 import NorthWestIcon from '@mui/icons-material/NorthWest';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import GetUrl from '@/helpers/GetUrl';
 
 export default function Speech() {
   const [isClient, setIsClient] = useState(false);
@@ -98,7 +99,7 @@ export default function Speech() {
           <Grid container rowSpacing={2}>
             <Grid size={12}>
               <Button startIcon={<NorthWestIcon/>}>
-                <Link href="/">Home</Link>
+                <Link href={GetUrl("/")}>Home</Link>
               </Button>
             </Grid>
 

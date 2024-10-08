@@ -1,3 +1,4 @@
+import GetUrl from '@/helpers/GetUrl';
 import {
   Card,
   CardActionArea,
@@ -63,7 +64,7 @@ export default function Home() {
               alignItems="center"
             >
               <Button variant="outlined">
-                <Link href="/detect-sound">Say a word, and see the API detect it!</Link>
+                <Link href={GetUrl("/detect-sound")}>Say a word, and see the API detect it!</Link>
               </Button>
             </Grid>
 
@@ -82,7 +83,7 @@ export default function Home() {
               alignItems="center"
             >
               <Button variant="outlined">
-                <Link href="/detect-sound/count">Count words mentioned from your mic!</Link>
+                <Link href={GetUrl("/detect-sound/count")}>Count words mentioned from your mic!</Link>
               </Button>
             </Grid>
 
@@ -101,7 +102,7 @@ export default function Home() {
               alignItems="center"
             >
               <Button variant="outlined">
-                <Link href="/speech">Text to speech using your browser!</Link>
+                <Link href={GetUrl("/speech")}>Text to speech using your browser!</Link>
               </Button>
             </Grid>
 
@@ -120,7 +121,7 @@ export default function Home() {
               alignItems="center"
             >
               <Button variant="outlined">
-                <Link href="/recorder">Recording audio and video content from your browser!</Link>
+                <Link href={GetUrl("/recorder")}>Recording audio and video content from your browser!</Link>
               </Button>
             </Grid>
           </Grid>

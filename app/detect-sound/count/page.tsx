@@ -24,6 +24,7 @@ import MicIcon from '@mui/icons-material/Mic';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation'
+import GetUrl from '@/helpers/GetUrl';
 
 function GrowTransition(props: GrowProps) {
   return <Grow {...props} />;
@@ -124,7 +125,7 @@ export default function Count() {
           <Grid container rowSpacing={1}>
             <Grid size={12}>
               <Button startIcon={<NorthWestIcon/>}>
-                <Link href="/">Home</Link>
+                <Link href={GetUrl("/")}>Home</Link>
               </Button>
             </Grid>
 
