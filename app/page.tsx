@@ -104,6 +104,25 @@ export default function Home() {
                 <Link href="/speech">Text to speech using your browser!</Link>
               </Button>
             </Grid>
+
+            <Grid size={12}>
+              <Divider
+                style={{ paddingTop: '30px', paddingBottom: '30px' }}>
+                <Chip label="Video / Audio Recording" />
+              </Divider>
+            </Grid>
+
+            <Grid
+              size={12}
+              container
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Button variant="outlined">
+                <Link href="/recorder">Recording audio and video content from your browser!</Link>
+              </Button>
+            </Grid>
           </Grid>
         </Box>
       </main>

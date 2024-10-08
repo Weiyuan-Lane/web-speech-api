@@ -4,7 +4,6 @@ import {
   getVoiceLanguages,
   getVoicesForLang,
   speechSynthesis,
-  speechSynthesisForDownload,
 } from '../../components/dom-web-speech';
 import {
   useEffect,
@@ -63,16 +62,6 @@ export default function Speech() {
 
   const speak = () => {
     speechSynthesis({
-      text: textForSynthesis,
-      language: voiceLanguage,
-      voice,
-      pitch,
-      rate,
-      volume,
-    });
-  }
-  const downloadMp3File = () => {
-    speechSynthesisForDownload({
       text: textForSynthesis,
       language: voiceLanguage,
       voice,
@@ -241,15 +230,15 @@ export default function Speech() {
                 </Button>
               </Grid>
               <Grid size={{ xs: 12, sm: 6 }}>
-                <Button
-                  variant="outlined"
-                  fullWidth
-                  startIcon={<DownloadForOfflineIcon/>}
-                  disabled={true}
-                  onClick={downloadMp3File}
-                >
-                  Download as MP3
-                </Button>
+                <Tooltip title="SpeechSynthesis doesn't support download or even the MediaRecorder API to convert to a downloadable file today. Try Google Cloud text to speech synthesiser for a downloadable variant - https://console.cloud.google.com/speech/text-to-speech">
+                  <Button
+                    variant="outlined"
+                    fullWidth
+                    startIcon={<DownloadForOfflineIcon/>}
+                  >
+                    <Link href="https://console.cloud.google.com/speech/text-to-speech" target="_blank">Synthesis and download</Link>
+                  </Button>
+                </Tooltip>
               </Grid>
             </Grid>
           </Grid>

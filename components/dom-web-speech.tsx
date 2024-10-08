@@ -1,7 +1,5 @@
 "use client";
 
-import { Volcano } from "@mui/icons-material";
-
 let SpeechRecognitionApi: {
   new (): SpeechRecognition;
   prototype: SpeechRecognition;
@@ -120,45 +118,140 @@ function speechSynthesis(props: SpeechSynthesisUtteranceProps) {
   SpeechSynthesisApi.speak(utterance);
 }
 
-function speechSynthesisForDownload(props: SpeechSynthesisUtteranceProps) {
-  const utterance = getSpeechSynthesisUtterance(props);
-  const stream = new MediaStream();
-  const audioContext = new AudioContext();
-  const source = audioContext.createMediaStreamSource(stream);
-  const destination = audioContext.createMediaStreamDestination();
-  source.connect(destination);
+export type WeiyuanMediaRecorder = {
+  stop: () => void;
+}
 
-  const mediaRecorder = new MediaRecorder(destination.stream);
-  const audioChunks = new Array<Blob>();
+async function recordMediaForDownload({ video = false, systemMedia = true }: { video: boolean, systemMedia: boolean }): Promise<WeiyuanMediaRecorder> {
+  console.log('video: ' + video, 'systemMedia: ' + systemMedia);
+  const mediaStream = systemMedia ? await navigator.mediaDevices.getDisplayMedia({
+    audio: true,
+    video: video ? true : undefined,
+  }) : await navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: video ? true : undefined,
+  });
 
-  utterance.onstart = () => {
-    mediaRecorder.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        audioChunks.push(event.data);
-      }
-    };
-    mediaRecorder.onstop = () => {
-      const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `output-${timestamp}.mp3`;
-      const link = document.createElement('a');
+  const mediaChunks = new Array<Blob>();
+  let mediaRecorder: MediaRecorder;
 
-      link.href = audioUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
+  // Specifically needed for audio recording for audioContext only
+  if (!video) {
+    const audioContext = new window.AudioContext();
+    const source = audioContext.createMediaStreamSource(mediaStream);
+    const destination = audioContext.createMediaStreamDestination();
+    source.connect(destination);
+    mediaRecorder = new MediaRecorder(destination.stream);
+  } else {
+    mediaRecorder = new MediaRecorder(mediaStream);
+  }
+
+  mediaRecorder.ondataavailable = (event) => {
+    mediaChunks.push(event.data);
   };
+  mediaRecorder.onstop = () => {
+    const type = video ? 'video/webm;codecs=h264,opus' : 'audio/webm;codecs=h264,opus';
+    const mediaBlob = new Blob(mediaChunks, { type });
+    const mediaUrl = URL.createObjectURL(mediaBlob);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `output-${timestamp}.webm`;
+    const link = document.createElement('a');
 
-  utterance.onend = () => {
-    mediaRecorder.stop();
+    link.style.display = 'none';
+    link.href = mediaUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   mediaRecorder.start();
-  SpeechSynthesisApi.speak(utterance);
+
+  return {
+    stop: () => {
+      mediaRecorder.stop();
+      mediaStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
+  }
 }
+
+// async function recordVideoForDownload(): Promise<VideoRecorder> {
+//   const mediaStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+//   const videoChunks = new Array<Blob>();
+//   const mediaRecorder = new MediaRecorder(mediaStream);
+
+//   mediaRecorder.ondataavailable = (event) => {
+//     console.log(event.data);
+//     videoChunks.push(event.data);
+//   };
+//   mediaRecorder.onstop = () => {
+//     const videoBlob = new Blob(videoChunks, { type: 'video/webm;codecs=h264,opus' });
+//     const videoUrl = URL.createObjectURL(videoBlob);
+//     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+//     const filename = `output-${timestamp}.webm`;
+//     const link = document.createElement('a');
+
+//     link.style.display = 'none';
+//     link.href = videoUrl;
+//     link.download = filename;
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+//   };
+
+//   mediaRecorder.start();
+
+//   return {
+//     stop: () => {
+//       mediaRecorder.stop();
+//       mediaStream.getTracks().forEach((track) => {
+//         track.stop();
+//       });
+//     }
+//   }
+// }
+
+// async function recordMediaForDownload({ video = false }: { video: boolean }): Promise<MediaRecorder> {
+//   const mediaStream = await navigator.mediaDevices.getDisplayMedia({ 
+//     audio: true,
+//     video,
+//   });
+//   const audioChunks = new Array<Blob>();
+//   const audioContext = new window.AudioContext();
+//   const source = audioContext.createMediaStreamSource(mediaStream);
+//   const destination = audioContext.createMediaStreamDestination();
+//   source.connect(destination);
+//   const mediaRecorder = new MediaRecorder(destination.stream);
+
+//   mediaRecorder.ondataavailable = (event) => {
+//     console.log(event.data);
+//     audioChunks.push(event.data);
+//   };
+//   mediaRecorder.onstop = () => {
+//     const audioBlob = new Blob(audioChunks, { type: 'audio/webm;codecs=h264,opus' });
+//     const audioUrl = URL.createObjectURL(audioBlob);
+//     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+//     const filename = `output-${timestamp}.webm`;
+//     const link = document.createElement('a');
+
+//     link.style.display = 'none';
+//     link.href = audioUrl;
+//     link.download = filename;
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+//   };
+
+//   mediaRecorder.start();
+
+//   return {
+//     stop: () => {
+//       mediaRecorder.stop();
+//     }
+//   }
+// }
 
 export {
   SpeechRecognitionApi,
@@ -171,5 +264,5 @@ export {
   getVoiceLanguages,
   getVoicesForLang,
   speechSynthesis,
-  speechSynthesisForDownload,
+  recordMediaForDownload,
 };
